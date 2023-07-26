@@ -20,11 +20,10 @@ class RandomNumberViewModel {
     
     weak var delegate: RandomNumberViewModelDelegate?
     
-    var numberToGuess: Int?
-    var maxNumberOfGuesses = 3
-     var currentGuesses = 0
+    private(set) var numberToGuess: Int?
+    private(set) var maxNumberOfGuesses = 3
+    private(set) var currentGuesses = 0
     var isGameOver = false
-    
     
     func generateRandomNumber() {
         numberToGuess = Int.random(in: 1...10)
@@ -53,10 +52,5 @@ class RandomNumberViewModel {
             delegate?.showWinAlerts(with: currentGuesses)
             isGameOver = true
         }
-    }
-    
-    private func resetGame() {
-        currentGuesses = 0
-        isGameOver = false
     }
 }
