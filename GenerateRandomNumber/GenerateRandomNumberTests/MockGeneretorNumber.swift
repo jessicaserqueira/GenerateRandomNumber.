@@ -5,9 +5,10 @@
 //  Created by Jessica Serqueira on 27/07/23.
 //
 
-import Foundation
+import XCTest
+@testable import GenerateRandomNumber
 
-class GeneretorNumber: RandomNumberProtocol {
+class MockGeneretorNumber: RandomNumberProtocol {
     static func random(in: ClosedRange<Int>) -> Int {
         return 8
     }
