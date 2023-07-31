@@ -11,11 +11,11 @@ import XCTest
 class RandomNumberViewModelTests: XCTestCase {
     
     var viewModel: RandomNumberViewModel!
-    var delegateMock: RandomNumberViewModelDelegateMock!
+    var delegateMock: MockRandomNumberViewModelDelegate!
     
     override func setUpWithError() throws {
-        delegateMock = RandomNumberViewModelDelegateMock()
-        viewModel = RandomNumberViewModel()
+        delegateMock = MockRandomNumberViewModelDelegate()
+        viewModel = RandomNumberViewModel(randomNumber: GeneretorNumber.self)
         viewModel.delegate = delegateMock
     }
     
@@ -24,55 +24,78 @@ class RandomNumberViewModelTests: XCTestCase {
         delegateMock = nil
     }
     
-    func testValidateGuessLowerThanNumber() {
+    func testGenereteRandomNumber() {
         viewModel.generateRandomNumber()
-        let guess = viewModel.numberToGuess! - 1
+        
+        XCTAssertTrue(delegateMock.numberGeneratedCalled)
+        XCTAssertEqual(viewModel.numberToGuess, 8)
+        XCTAssertFalse(viewModel.isGameOver)
+        XCTAssertEqual(viewModel.currentGuesses, 0)
+    }
+    
+    func testValidateGuessWin() {
+        viewModel.generateRandomNumber()
+        
+        guard let guess = viewModel.numberToGuess else { return }
         
         viewModel.validateGuess(guess)
         
-        XCTAssertTrue(delegateMock.showLessThanNumberAlertCalled, "O método delegado showLessThanNumberAlert() deve ser chamado quando o palpite for menor que o numberToGuess")
+        XCTAssertTrue(delegateMock.showWinAlertsCalled)
+        XCTAssertEqual(viewModel.numberToGuess, 8)
+        XCTAssertEqual(delegateMock.attempts, 1)
+        XCTAssertTrue(viewModel.isGameOver)
+    }
+    
+    func testValidateGuessExceededAttempts() {
+        viewModel.generateRandomNumber()
         
+        guard let guess = viewModel.numberToGuess else { return }
+        let maxNumberOfGuesses = viewModel.maxNumberOfGuesses
+        
+        for _ in 1...maxNumberOfGuesses {
+            viewModel.validateGuess(guess - 1)
+        }
+        
+        XCTAssertTrue(viewModel.isGameOver)
+        XCTAssertTrue(delegateMock.showExceededAttemptsAlertCalled)
     }
     
     func testValidateGuessGreaterThanNumber() {
         viewModel.generateRandomNumber()
-        let guess = viewModel.numberToGuess! + 1
-        viewModel.validateGuess(guess)
         
-        XCTAssertTrue(delegateMock.showGreaterThanNumberAlertCalled, "O método delegado showGreaterThanNumberAlert() deve ser chamado quando o palpite for maior que o numberToGuess")
+        viewModel.validateGuess(9)
+        
+        XCTAssertTrue(delegateMock.showGreaterThanNumberAlertCalled)
+        XCTAssertEqual(viewModel.currentGuesses, 1)
+        XCTAssertFalse(viewModel.isGameOver)
+        
     }
     
-    func testValidateGuessCorrectNumber() {
+    func testValidateGuessLessThanNumber() {
         viewModel.generateRandomNumber()
-        let guess = viewModel.numberToGuess!
         
-        viewModel.validateGuess(guess)
+        viewModel.validateGuess(4)
         
-        XCTAssertTrue(delegateMock.showWinAlertsCalled, "O método delegado showWinAlerts() deve ser chamado quando o palpite corresponder ao numberToGuess")
-        XCTAssertEqual(delegateMock.attempts, 1, "O método delegado showWinAlerts() deve ser chamado com o número correto de tentativas (1)")
-        XCTAssertTrue(viewModel.isGameOver, "O isGameOver deve ser verdadeiro quando o palpite corresponder ao numberToGuess")
+        XCTAssertTrue(delegateMock.showLessThanNumberAlertCalled)
+        XCTAssertEqual(viewModel.currentGuesses, 1)
+        XCTAssertFalse(viewModel.isGameOver)
     }
     
-    func testValidateGuessMaxAttemptsReached() {
+    func testValidateGuessOutOfBoundsLower() {
         viewModel.generateRandomNumber()
+        viewModel.validateGuess(-5)
         
-        let guess1 = viewModel.numberToGuess! - 1
-        let guess2 = viewModel.numberToGuess! + 1
-        
-        viewModel.validateGuess(guess1)
-        
-        XCTAssertFalse(viewModel.isGameOver, "O isGameOver deve permanecer falso após o primeiro palpite incorreto")
-        XCTAssertFalse(delegateMock.showExceededAttemptsAlertCalled, "O método delegado showExceededAttemptsAlert() não deve ser chamado após o primeiro palpite incorreto")
-        
-        viewModel.validateGuess(guess2)
-        
-        if viewModel.currentGuesses >= viewModel.maxNumberOfGuesses {
-            XCTAssertTrue(viewModel.isGameOver, "O isGameOver deve ser verdadeiro após o palpite incorreto atingir o máximo de tentativas")
-            XCTAssertTrue(delegateMock.showExceededAttemptsAlertCalled, "O método delegado showExceededAttemptsAlert() deve ser chamado após o palpite incorreto atingir o máximo de tentativas")
-        } else {
-            XCTAssertFalse(viewModel.isGameOver, "O isGameOver deve permanecer falso após o segundo palpite incorreto")
-            XCTAssertFalse(delegateMock.showExceededAttemptsAlertCalled, "O método delegado showExceededAttemptsAlert() não deve ser chamado após o segundo palpite incorreto")
-        }
-        
+        XCTAssertTrue(delegateMock.showBoundsAlertsCalled)
+        XCTAssertEqual(viewModel.currentGuesses, 1)
+        XCTAssertFalse(viewModel.isGameOver)
+    }
+    
+    func testValidateGuessOutOfBoundsUpper() {
+        viewModel.generateRandomNumber()
+        viewModel.validateGuess(15)
+
+        XCTAssertTrue(delegateMock.showBoundsAlertsCalled)
+        XCTAssertEqual(viewModel.currentGuesses, 1)
+        XCTAssertFalse(viewModel.isGameOver)
     }
 }

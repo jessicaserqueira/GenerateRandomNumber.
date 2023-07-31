@@ -8,7 +8,7 @@
 import XCTest
 @testable import GenerateRandomNumber
 
-class RandomNumberViewModelDelegateMock: RandomNumberViewModelDelegate {
+class MockRandomNumberViewModelDelegate: RandomNumberViewModelDelegate {
     var numberGeneratedCalled = false
     var showLessThanNumberAlertCalled = false
     var showGreaterThanNumberAlertCalled = false
