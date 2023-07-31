@@ -25,8 +25,14 @@ class RandomNumberViewModel {
     private(set) var currentGuesses = 0
     var isGameOver = false
     
+    let randomNumber: RandomNumberProtocol.Type
+    
+    init(randomNumber: RandomNumberProtocol.Type = Int.self) {
+        self.randomNumber = randomNumber
+    }
+      
     func generateRandomNumber() {
-        numberToGuess = Int.random(in: 1...10)
+        numberToGuess = randomNumber.random(in: 1...10)
         currentGuesses = 0
         isGameOver = false
         delegate?.numberGenerated(numberToGuess ?? 0)
