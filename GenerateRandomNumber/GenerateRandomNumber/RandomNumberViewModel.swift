@@ -18,34 +18,35 @@ protocol RandomNumberViewModelDelegate: AnyObject{
 
 class RandomNumberViewModel {
     
-    private var view: RandomNumberView
     weak var delegate: RandomNumberViewModelDelegate?
     
-    private var numberToGuess: Int?
-    private var maxNumberOfGuesses = 3
-    private var currentGuesses = 0
+    private(set) var numberToGuess: Int?
+    private(set) var maxNumberOfGuesses = 3
+    private(set) var currentGuesses = 0
     var isGameOver = false
     
-    init(view: RandomNumberView) {
-        self.view = view
-    }
+    let randomNumber: RandomNumberProtocol.Type
     
+    init(randomNumber: RandomNumberProtocol.Type = Int.self) {
+        self.randomNumber = randomNumber
+    }
+      
     func generateRandomNumber() {
-        numberToGuess = Int.random(in: 1...10)
+        numberToGuess = randomNumber.random(in: 1...10)
         currentGuesses = 0
         isGameOver = false
         delegate?.numberGenerated(numberToGuess ?? 0)
     }
     
     func validateGuess(_ guess: Int) {
-        guard !isGameOver, let numberToGuess = numberToGuess else { return }
+        guard let numberToGuess = numberToGuess else { return }
+        
+        currentGuesses += 1
         
         if currentGuesses >= maxNumberOfGuesses {
             delegate?.showExceededAttemptsAlert()
             isGameOver = true
         }
-        
-        currentGuesses += 1
         
         if guess < 1 || guess > 10 {
             delegate?.showBoundsAlerts()
@@ -56,13 +57,6 @@ class RandomNumberViewModel {
         } else {
             delegate?.showWinAlerts(with: currentGuesses)
             isGameOver = true
-            resetGame()
-            generateRandomNumber()
         }
-    }
-    
-    private func resetGame() {
-        currentGuesses = 0
-        isGameOver = false
     }
 }
