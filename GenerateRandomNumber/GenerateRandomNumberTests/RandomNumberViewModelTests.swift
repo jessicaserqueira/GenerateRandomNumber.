@@ -11,10 +11,10 @@ import XCTest
 class RandomNumberViewModelTests: XCTestCase {
     
     var viewModel: RandomNumberViewModel!
-    var delegateMock: MockRandomNumberViewModelDelegate!
+    var delegateMock: RandomNumberViewModelDelegateSpy!
     
     override func setUpWithError() throws {
-        delegateMock = MockRandomNumberViewModelDelegate()
+        delegateMock = RandomNumberViewModelDelegateSpy()
         viewModel = RandomNumberViewModel(randomNumber: MockGeneretorNumber.self)
         viewModel.delegate = delegateMock
     }
@@ -68,7 +68,6 @@ class RandomNumberViewModelTests: XCTestCase {
         XCTAssertTrue(delegateMock.showGreaterThanNumberAlertCalled)
         XCTAssertEqual(viewModel.currentGuesses, 1)
         XCTAssertFalse(viewModel.isGameOver)
-        
     }
     
     func testValidateGuessLessThanNumber() {
