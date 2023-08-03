@@ -8,7 +8,7 @@
 import XCTest
 @testable import GenerateRandomNumber
 
-class MockGeneretorNumber: RandomNumberProtocol {
+class GeneretorNumberStub: RandomNumberProtocol {
     static func random(in: ClosedRange<Int>) -> Int {
         return 8
     }

@@ -19,7 +19,7 @@
 		A4572BD92A65DE6800B1FCB3 /* RandomNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4572BD82A65DE6800B1FCB3 /* RandomNumberViewModel.swift */; };
 		A48A3B312A6F0B9600EF8121 /* RandomNumberViewModelDelegateSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48A3B302A6F0B9600EF8121 /* RandomNumberViewModelDelegateSpy.swift */; };
 		A4CB6DCD2A72AC1E00756817 /* RandomNumberProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CB6DCC2A72AC1E00756817 /* RandomNumberProtocol.swift */; };
-		A4CB6DD12A77EAAF00756817 /* MockGeneretorNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CB6DCE2A72AD2500756817 /* MockGeneretorNumber.swift */; };
+		A4CB6DD12A77EAAF00756817 /* GeneretorNumberStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CB6DCE2A72AD2500756817 /* GeneretorNumberStub.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +56,7 @@
 		A4572BD82A65DE6800B1FCB3 /* RandomNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberViewModel.swift; sourceTree = "<group>"; };
 		A48A3B302A6F0B9600EF8121 /* RandomNumberViewModelDelegateSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberViewModelDelegateSpy.swift; sourceTree = "<group>"; };
 		A4CB6DCC2A72AC1E00756817 /* RandomNumberProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberProtocol.swift; sourceTree = "<group>"; };
-		A4CB6DCE2A72AD2500756817 /* MockGeneretorNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGeneretorNumber.swift; sourceTree = "<group>"; };
+		A4CB6DCE2A72AD2500756817 /* GeneretorNumberStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneretorNumberStub.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +122,7 @@
 		A4572BBC2A65B40A00B1FCB3 /* GenerateRandomNumberTests */ = {
 			isa = PBXGroup;
 			children = (
-				A4CB6DCE2A72AD2500756817 /* MockGeneretorNumber.swift */,
+				A4CB6DCE2A72AD2500756817 /* GeneretorNumberStub.swift */,
 				A4572BBD2A65B40A00B1FCB3 /* RandomNumberViewModelTests.swift */,
 				A48A3B302A6F0B9600EF8121 /* RandomNumberViewModelDelegateSpy.swift */,
 			);
@@ -290,7 +290,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A4CB6DD12A77EAAF00756817 /* MockGeneretorNumber.swift in Sources */,
+				A4CB6DD12A77EAAF00756817 /* GeneretorNumberStub.swift in Sources */,
 				A4572BBE2A65B40A00B1FCB3 /* RandomNumberViewModelTests.swift in Sources */,
 				A48A3B312A6F0B9600EF8121 /* RandomNumberViewModelDelegateSpy.swift in Sources */,
 			);

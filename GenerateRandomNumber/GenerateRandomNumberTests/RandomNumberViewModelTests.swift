@@ -15,7 +15,7 @@ class RandomNumberViewModelTests: XCTestCase {
     
     override func setUpWithError() throws {
         delegateMock = RandomNumberViewModelDelegateSpy()
-        viewModel = RandomNumberViewModel(randomNumber: MockGeneretorNumber.self)
+        viewModel = RandomNumberViewModel(randomNumber: GeneretorNumberStub.self)
         viewModel.delegate = delegateMock
     }
     
